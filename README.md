@@ -135,7 +135,6 @@ Exit code 0 means no blocking findings. The manual gates still require a human r
 │       ├── assets/
 │       └── scripts/
 ├── skills/skill-forge/                  # mirror for skills.sh and manual installs
-├── docs/market-analysis.md              # market data and positioning rationale
 └── scripts/sync_mirror.py               # keeps the mirror in sync
 ```
 
