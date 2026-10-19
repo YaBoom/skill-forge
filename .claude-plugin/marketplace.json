@@ -1,0 +1,29 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "skill-forge-marketplace",
+  "description": "Skill Forge: turn completed workflows into tested, publish-ready Agent Skills.",
+  "owner": {
+    "name": "YaBoom",
+    "url": "https://github.com/YaBoom"
+  },
+  "plugins": [
+    {
+      "name": "skill-forge",
+      "description": "Distill any completed workflow into a production-ready Agent Skill, complete with trigger tests, an eight-gate quality scorecard, and Claude Code / Codex plugin packaging.",
+      "author": {
+        "name": "YaBoom",
+        "url": "https://github.com/YaBoom"
+      },
+      "category": "development",
+      "source": "./plugins/skill-forge",
+      "homepage": "https://github.com/YaBoom/skill-forge",
+      "keywords": [
+        "skill-creator",
+        "agent-skills",
+        "workflow",
+        "sop",
+        "publishing"
+      ]
+    }
+  ]
+}

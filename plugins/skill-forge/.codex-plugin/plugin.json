@@ -1,0 +1,40 @@
+{
+  "name": "skill-forge",
+  "version": "1.0.0",
+  "description": "Distill any completed workflow into a production-ready Agent Skill, complete with trigger tests, an eight-gate quality scorecard, and Claude Code / Codex plugin packaging.",
+  "author": {
+    "name": "YaBoom",
+    "url": "https://github.com/YaBoom"
+  },
+  "homepage": "https://github.com/YaBoom/skill-forge",
+  "repository": "https://github.com/YaBoom/skill-forge",
+  "license": "MIT",
+  "keywords": [
+    "skill",
+    "skill-creator",
+    "agent-skills",
+    "claude-code",
+    "codex",
+    "workflow",
+    "sop",
+    "publishing"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Skill Forge",
+    "shortDescription": "Turn a finished workflow into a tested, publish-ready Agent Skill",
+    "longDescription": "Skill Forge harvests evidence from the current session, git history, and project files, distills it into a portable procedure, scores it against eight quality gates, and packages the result for Claude Code, Codex, Cursor, and skills.sh.",
+    "developerName": "YaBoom",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Turn what we just finished into a reusable skill",
+      "Audit my SKILL.md and tell me why it never triggers",
+      "Package this skill for Claude Code and Codex"
+    ]
+  }
+}
