@@ -1,8 +1,13 @@
 # 发布与冷启动手册
 
 > 目标：把 `skill-forge` 从本地目录变成一个能被搜索、安装、审核、传播的公开资产。
-> 当前状态：代码与清单已完成，`python scripts/preflight.py` 20/20 通过。
-> 需要你本人操作的环节已用 **[你]** 标出，其余可以让我继续执行。
+>
+> 当前状态（2026-10-19）：已发布到 <https://github.com/YaBoom/skill-forge>，
+> v1.0.0 Release 已创建，8 个 topics 已设置，`npx skills add YaBoom/skill-forge -l`
+> 已验证能识别 1 个 skill。`python scripts/preflight.py` 20/20 通过。
+>
+> 仍需你本人操作：Claude 官方表单提交（涉及账号登录与对外身份声明）；
+> Codex 官方 `openai/plugins` 是 curated 集合，没有公开提交通道。
 
 ---
 
@@ -44,10 +49,15 @@ python scripts/preflight.py
 
 ---
 
-## 2. 推到 GitHub **[你]**
+## 2. 推到 GitHub **[已完成]**
 
-当前目录还不是 git 仓库。确认仓库名后执行（把 `<repo>` 换成你想要的名称，
-建议就用 `skill-forge`）：
+仓库已创建：<https://github.com/YaBoom/skill-forge>
+
+首次提交：`c512f85 feat: add skill-forge for Claude Code and Codex`
+
+Release：<https://github.com/YaBoom/skill-forge/releases/tag/v1.0.0>
+
+以下命令保留作为换机或重建仓库时的参考：
 
 ```powershell
 git init

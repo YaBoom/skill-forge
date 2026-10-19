@@ -1,5 +1,8 @@
 # Skill Forge
 
+[![preflight](https://github.com/YaBoom/skill-forge/actions/workflows/preflight.yml/badge.svg)](https://github.com/YaBoom/skill-forge/actions/workflows/preflight.yml)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Turn a workflow you just finished into a tested, publish-ready Agent Skill.
 
 Skill Forge is not another prompt template. It harvests evidence from the current session,
