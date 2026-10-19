@@ -66,6 +66,21 @@ Matt Pocock 一人占据 Top 30 中的 10+ 席，合计超过 2.7M 安装。
 三者都在教用户“如何写一个 Skill”，输入是用户的**口述与想象**。
 没有人解决更难、更高频的问题：**我刚刚已经做成了一件事，怎么把它沉淀下来？**
 
+### 竞品复核（2026-10-19）
+
+`npx skills find skill-forge` 返回的同名与近似条目：
+
+| Skill | 安装量 | 定位 | 与我们的关系 |
+|---|---|---|---|
+| browser-act/skills@browser-act-skill-forge | 85.2K | 浏览器自动化场景 | 名称近似，场景不同 |
+| sanyuan0704/sanyuan-skills@skill-forge | 4.1K | Skill 写作规范（token 成本铁律） | 直接相邻，但输入是写作规范，不是已完成工作流 |
+| ngmeyer/skills@skillforge | 311 | 同名近似 | 长尾 |
+| yujunzhixue/github-skill-forge | 152 | GitHub 场景 | 场景不同 |
+
+结论：`skill-forge` 不是空白词，存在 4.1K 量级的相邻竞品。差异化不在“教你写 skill”，
+而在“从已完成工作流反向蒸馏 + 可执行审计 + 双市场打包”。因此保留名称，
+并在 description 中强化 `evidence-backed` 与 `already-completed`。
+
 ---
 
 ## 3. 播客案例拆解：Treg 的 Codex 插件为什么能改变增长曲线
@@ -148,8 +163,8 @@ Treg 需要真实的数据供应商、计费系统、法务与账号体系，个
 **选择“工作流蒸馏成 Skill”的五条理由：**
 
 1. **触发频率最高**：用户每完成一次有价值的任务，就是一次触发机会。
-2. **竞争仍是空白**：现有产品（skill-creator / write-a-skill）都是“从零访谈式创建”，
-   没有产品把“刚做完的事”作为输入。
+2. **竞争仍未被占据**：现有产品（skill-creator / write-a-skill / sanyuan skill-forge）
+   的输入都是“口述、想象或写作规范”，没有产品把“刚做完的事”作为第一输入。
 3. **产出物即传播物**：生成的每个 Skill 都带 `Built with skill-forge` 元数据，
    形成“用得越多 → 产出越多 → 曝光越多”的回流。
 4. **跨生态天然成立**：Skill 是 Claude、Codex、Cursor 共同采纳的开放标准，

@@ -5,9 +5,14 @@
 
 Turn a workflow you just finished into a tested, publish-ready Agent Skill.
 
-Skill Forge is not another prompt template. It harvests evidence from the current session,
-git history, and project files; distills it into a portable procedure; scores it against
-eight quality gates; and packages the result for Claude Code, Codex, Cursor, and skills.sh.
+**Not another skill-writing checklist.** Most skill tools start from a blank page and ask
+you to describe the workflow. Skill Forge starts from a workflow you have already
+completed, refuses to invent steps that cannot be traced to evidence, and ships only
+after the result passes eight gates.
+
+It harvests evidence from the current session, git history, and project files; distills
+it into a portable procedure; scores it against eight quality gates; and packages the
+result for Claude Code, Codex, Cursor, and skills.sh.
 
 ## Why this exists
 

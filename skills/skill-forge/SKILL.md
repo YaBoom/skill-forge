@@ -1,6 +1,6 @@
 ---
 name: skill-forge
-description: Distill a workflow the user just completed into a production-ready Agent Skill, or upgrade an existing skill for distribution. Use when the user asks to create a skill from this session, repository, runbook, SOP, command history, or a repeated task; when a one-off success should become reusable; or when an existing SKILL.md needs sharper triggering, token-budget review, security audit, plugin packaging, or submission to Claude Code, Codex, Cursor, or skills.sh. Do not use for one-off prompts, MCP server implementation, or simply installing a third-party skill.
+description: Distill a workflow the user just completed into a production-ready, evidence-backed Agent Skill, or upgrade an existing skill for distribution. Use when the user asks to create a skill from this session, repository, runbook, SOP, command history, or a repeated task; when a one-off success should become reusable; or when an existing SKILL.md needs sharper triggering, token-budget review, security audit, plugin packaging, or submission to Claude Code, Codex, Cursor, or skills.sh. Do not use for one-off prompts, MCP server implementation, or simply installing a third-party skill.
 license: MIT
 ---
 
