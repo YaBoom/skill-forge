@@ -22,33 +22,51 @@ fill — **turning a real, completed workflow into a distributable asset**.
 
 ## Install
 
-Claude Code, from this repository as a marketplace:
+### Claude Code
+
+From this repository as a marketplace:
 
 ```bash
 /plugin marketplace add YaBoom/skill-forge
 /plugin install skill-forge@skill-forge-marketplace
 ```
 
-Codex:
+### Codex
 
 ```bash
 git clone https://github.com/YaBoom/skill-forge.git
+mkdir -p ~/.codex/skills
 cp -r skill-forge/plugins/skill-forge/skills/skill-forge ~/.codex/skills/
 ```
 
-Any Agent Skills host via skills.sh:
+Codex also reads the shared Agent Skills directory, so copying the same folder to
+`.agents/skills/skill-forge/` works for project-scoped installs.
+
+### Cursor
 
 ```bash
-npx skills add YaBoom/skill-forge -s skill-forge -g -y
+mkdir -p .cursor/skills
+cp -r plugins/skill-forge/skills/skill-forge .cursor/skills/
 ```
 
-Manual install:
+Commit `.cursor/skills/` so everyone working in the repository gets the skill.
+
+### Any Agent Skills host (80+)
+
+```bash
+npx skills add YaBoom/skill-forge -s skill-forge -g
+```
+
+Drop `-g` to install into the current project. The CLI detects the host and writes
+to the right directory, or prompts you to pick one when several are installed.
+
+### Manual install
 
 ```bash
 cp -r plugins/skill-forge/skills/skill-forge ~/.claude/skills/
 ```
 
-Restart the host and confirm the skill appears in `/skills` or `$` completion.
+Restart the host and confirm the skill appears in `/skills` or the command palette.
 
 ## Use
 
@@ -118,12 +136,14 @@ Exit code 0 means no blocking findings. The manual gates still require a human r
 
 ## Publishing
 
-Three channels, in order:
+Four channels, in order:
 
-1. **Local** — copy into `~/.claude/skills` or `~/.codex/skills`.
+1. **Local** — copy into `~/.claude/skills`, `~/.codex/skills`, or `.cursor/skills`.
 2. **skills.sh** — push to GitHub, then `npx skills add <owner>/<repo> -s skill-forge`.
-3. **Official directories** — submit the Claude plugin via `claude.com/marketplace`,
-   or open a pull request against `openai/plugins` for Codex.
+3. **Self-hosted marketplaces** — this repository ships both
+   `.claude-plugin/marketplace.json` and `.agents/plugins/marketplace.json`.
+4. **Official directories** — Claude community submissions currently require a Team or
+   Enterprise organization; `openai/plugins` is curated and has no public submission path.
 
 The detailed manifest formats and submission checklist live in
 [`references/publish-playbook.md`](plugins/skill-forge/skills/skill-forge/references/publish-playbook.md).
