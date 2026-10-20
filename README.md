@@ -135,7 +135,11 @@ Exit code 0 means no blocking findings. The manual gates still require a human r
 │       ├── assets/
 │       └── scripts/
 ├── skills/skill-forge/                  # mirror for skills.sh and manual installs
-└── scripts/sync_mirror.py               # keeps the mirror in sync
+├── examples/sync-skill-mirror/          # 103-line worked example
+└── scripts/
+    ├── sync_mirror.py                   # keeps the mirror in sync
+    ├── survey_triggers.py               # audits negative triggers across installed skills
+    └── preflight.py                     # repository-level checks
 ```
 
 ## Publishing
