@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skill Forge — turn a finished workflow into a tested Agent Skill</title>
+<meta name="description" content="Skill Forge harvests a workflow you already completed into a tested, evidence-backed Agent Skill, scored against eight quality gates.">
+<style>
+  :root {
+    --bg: #0b0b0c;
+    --panel: #131316;
+    --border: #26262b;
+    --fg: #e8e8ea;
+    --muted: #8b8b95;
+    --accent: #6ee7a8;
+    --warn: #f0b429;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  code, pre, .mono {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- hero ---------- */
+  header { padding: 88px 0 56px; }
+  .eyebrow {
+    font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 20px; font-weight: 600;
+  }
+  h1 {
+    font-size: clamp(30px, 5vw, 46px);
+    line-height: 1.18; letter-spacing: -.02em;
+    margin: 0 0 20px; font-weight: 680;
+  }
+  .lede { font-size: clamp(16px, 2.2vw, 18px); color: var(--muted); margin: 0 0 32px; max-width: 62ch; }
+  .lede strong { color: var(--fg); font-weight: 600; }
+
+  /* ---------- install ---------- */
+  .install {
+    display: flex; align-items: stretch; gap: 0;
+    border: 1px solid var(--border); border-radius: 10px;
+    background: var(--panel); overflow: hidden; max-width: 100%;
+  }
+  .install code {
+    flex: 1; padding: 15px 18px; font-size: 13.5px; color: var(--accent);
+    overflow-x: auto; white-space: nowrap; align-self: center;
+  }
+  .install button {
+    border: 0; border-left: 1px solid var(--border);
+    background: transparent; color: var(--muted);
+    padding: 0 18px; font-size: 12.5px; cursor: pointer;
+    font-family: inherit; transition: color .15s, background .15s;
+    white-space: nowrap;
+  }
+  .install button:hover { color: var(--fg); background: #1b1b20; }
+  .hint { font-size: 12.5px; color: var(--muted); margin: 12px 0 0; }
+  .hint a { color: var(--muted); }
+
+  /* ---------- stats ---------- */
+  .stats {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 10px;
+    margin: 56px 0; overflow: hidden;
+  }
+  .stat { background: var(--panel); padding: 22px 20px; }
+  .stat b { display: block; font-size: 26px; font-weight: 650; letter-spacing: -.02em; }
+  .stat span { font-size: 12.5px; color: var(--muted); }
+
+  /* ---------- sections ---------- */
+  section { padding: 40px 0; border-top: 1px solid var(--border); }
+  h2 {
+    font-size: 13px; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); margin: 0 0 24px;
+  }
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .card { border: 1px solid var(--border); border-radius: 10px; background: var(--panel); overflow: hidden; }
+  .card-head {
+    padding: 11px 16px; font-size: 12px; letter-spacing: .06em;
+    text-transform: uppercase; border-bottom: 1px solid var(--border);
+  }
+  .card.bad .card-head { color: var(--warn); }
+  .card.good .card-head { color: var(--accent); }
+  .card pre {
+    margin: 0; padding: 16px; font-size: 12.5px; line-height: 1.7;
+    overflow-x: auto; white-space: pre; color: #c9c9d1;
+  }
+  .card p { margin: 0; padding: 0 16px 16px; font-size: 12.5px; color: var(--muted); }
+  .dim { color: var(--muted); }
+  .ok { color: var(--accent); }
+  .no { color: var(--warn); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 500; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; }
+  td:first-child { color: var(--fg); }
+  td.score { color: var(--accent); font-family: ui-monospace, Menlo, monospace; white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: 0; }
+
+  .note { font-size: 13px; color: var(--muted); margin: 20px 0 0; }
+  .note b { color: var(--fg); font-weight: 600; }
+
+  footer { padding: 44px 0 72px; border-top: 1px solid var(--border); font-size: 13.5px; color: var(--muted); }
+  footer a { color: var(--fg); text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 1px; }
+  footer a:hover { border-color: var(--accent); }
+  .links { display: flex; gap: 22px; flex-wrap: wrap; margin-bottom: 18px; }
+
+  @media (max-width: 640px) {
+    header { padding: 56px 0 36px; }
+    .compare { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: 1fr; }
+    .install { flex-wrap: wrap; }
+    .install button { border-left: 0; border-top: 1px solid var(--border); padding: 11px 18px; width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Agent Skill</p>
+    <h1>Turn a finished workflow into a tested, publish-ready Agent Skill.</h1>
+    <p class="lede">
+      Most skill tools start from a blank page and ask you to describe the workflow.
+      Skill Forge starts from what you <strong>already ran</strong> — git history, terminal output,
+      project files — and refuses to write a step it cannot trace to evidence.
+    </p>
+
+    <div class="install">
+      <code id="cmd">npx skills add YaBoom/skill-forge -s skill-forge -g</code>
+      <button id="copy" type="button">copy</button>
+    </div>
+    <p class="hint">
+      Works on Claude Code, Codex, Cursor and 80+ hosts.
+      <a href="https://github.com/YaBoom/skill-forge">Other install paths →</a>
+    </p>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><b>8</b><span>quality gates</span></div>
+    <div class="stat"><b>16/16</b><span>on the worked example</span></div>
+    <div class="stat"><b>94.5%</b><span>of skills never state their boundary</span></div>
+  </div>
+
+  <section>
+    <h2>The difference</h2>
+    <div class="compare">
+
+      <div class="card bad">
+        <div class="card-head">Described from memory</div>
+        <pre>1. Check whether the canonical and
+   mirror directories match
+2. If they differ, copy canonical
+   into the mirror
+3. Verify the sync succeeded</pre>
+        <p>No command. No exit condition. Every step has to be improvised at runtime.</p>
+      </div>
+
+      <div class="card good">
+        <div class="card-head">Harvested from a real run</div>
+        <pre><span class="dim">$ python scripts/sync_mirror.py --check</span>
+drift: SKILL.md
+<span class="dim">$ python scripts/sync_mirror.py</span>
+synced plugins/skill-forge/... -&gt; skills/...
+<span class="dim">$ python scripts/sync_mirror.py --check</span>
+<span class="ok">mirror is in sync</span></pre>
+        <p>Five steps, each with a command and a machine-checkable exit condition.</p>
+      </div>
+
+    </div>
+    <p class="note">
+      Left is the shape of a description written from memory. Right is the actual output of
+      <code>examples/sync-skill-mirror</code>, a 103-line skill in this repository.
+    </p>
+  </section>
+
+  <section>
+    <h2>Eight gates, each scored 0 / 1 / 2</h2>
+    <table>
+      <thead>
+        <tr><th>Gate</th><th>Score</th><th>Evidence</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Trigger precision</td><td class="score">2/2</td><td>3 positive triggers, 1 exclusion</td></tr>
+        <tr><td>Progressive disclosure</td><td class="score">2/2</td><td>103 lines, nothing inlined</td></tr>
+        <tr><td>Token budget</td><td class="score">2/2</td><td>~890 tokens</td></tr>
+        <tr><td>Executability</td><td class="score">2/2</td><td>5 steps, all with exit conditions</td></tr>
+        <tr><td>Evidence anchoring</td><td class="score">2/2</td><td>Script source and two real runs</td></tr>
+        <tr><td>Safety</td><td class="score">2/2</td><td>Mirror only, no source deletion</td></tr>
+        <tr><td>Portability</td><td class="score">2/2</td><td>No absolute paths</td></tr>
+        <tr><td>Provability</td><td class="score">2/2</td><td>5 positive + 3 negative trigger tests</td></tr>
+      </tbody>
+    </table>
+    <p class="note">
+      A skill can pass all eight and still solve a problem nobody has.
+      The gates are a <b>quality floor</b>, not a product strategy.
+    </p>
+  </section>
+
+  <section>
+    <h2>Why the boundary matters</h2>
+    <p class="note" style="margin-top:0">
+      <code>description</code> is the only thing a host sees before loading a skill. If it only says
+      what the skill does, the host has to load it in every superficially similar situation.
+      A skill that should not have fired does not usually error — it does something plausible,
+      reports success, and you find out later.
+    </p>
+    <p class="note">
+      We scanned <b>275 installed skills</b> across four host directories.
+      <b>15</b> of them declare a negative trigger. The script that produced this number is in the
+      repository as <code>scripts/survey_triggers.py</code> — run it on your own machine and the
+      number will move.
+    </p>
+  </section>
+
+  <footer>
+    <div class="links">
+      <a href="https://github.com/YaBoom/skill-forge">GitHub</a>
+      <a href="https://skills.sh/yaboom/skill-forge/skill-forge">skills.sh</a>
+      <a href="https://github.com/YaBoom/skill-forge/blob/main/plugins/skill-forge/skills/skill-forge/references/quality-gates.md">Quality gates</a>
+      <a href="https://github.com/YaBoom/skill-forge/tree/main/examples/sync-skill-mirror">Worked example</a>
+    </div>
+    <p>MIT licensed. Built for Claude Code, Codex, Cursor, and any Agent Skills host.</p>
+  </footer>
+
+</div>
+
+<script>
+  const btn = document.getElementById('copy');
+  const cmd = document.getElementById('cmd');
+  btn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(cmd.textContent.trim());
+      btn.textContent = 'copied';
+    } catch {
+      const range = document.createRange();
+      range.selectNodeContents(cmd);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      btn.textContent = 'select & copy';
+    }
+    setTimeout(() => { btn.textContent = 'copy'; }, 1600);
+  });
+</script>
+</body>
+</html>
