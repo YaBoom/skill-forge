@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Most agent skills never say when not to use them</title>
+<meta name="description" content="I scanned 275 installed agent skills. 15 declare when they should not be used. The boundary lives in the description field, and almost nobody writes it.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://yaboom.github.io/skill-forge/boundary.html">
+<meta property="og:title" content="Most agent skills never say when not to use them">
+<meta property="og:description" content="275 installed skills. 15 declare a boundary. The description field decides whether an agent loads you, and almost nobody uses it to say no.">
+<meta property="og:image" content="https://yaboom.github.io/skill-forge/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Most agent skills never say when not to use them">
+<meta name="twitter:description" content="I scanned 275 installed agent skills. 5.5% declare when they should not fire.">
+<style>
+  :root {
+    --bg: #0b0b0c;
+    --panel: #131316;
+    --border: #26262b;
+    --fg: #e8e8ea;
+    --muted: #8b8b95;
+    --accent: #6ee7a8;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 700px; margin: 0 auto; padding: 0 24px; }
+  header { padding: 84px 0 40px; border-bottom: 1px solid var(--border); }
+  .eyebrow {
+    margin: 0 0 20px;
+    font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--accent);
+  }
+  h1 { margin: 0 0 20px; font-size: 40px; line-height: 1.2; letter-spacing: -.02em; font-weight: 700; }
+  .dek { margin: 0; font-size: 18px; color: var(--muted); }
+  .meta { margin-top: 26px; font-size: 13px; color: var(--muted); }
+  .meta a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border); }
+  .meta a:hover { color: var(--fg); border-color: var(--accent); }
+
+  article { padding: 44px 0 72px; font-size: 17px; }
+  article p { margin: 0 0 22px; }
+  article h2 {
+    margin: 52px 0 18px;
+    font-size: 23px; line-height: 1.3; letter-spacing: -.01em; font-weight: 650;
+  }
+  article strong { color: #fff; font-weight: 650; }
+  article em { color: #fff; }
+  article ul, article ol { margin: 0 0 22px; padding-left: 22px; }
+  article li { margin-bottom: 10px; }
+  article a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(110,231,168,.3); }
+  article a:hover { border-bottom-color: var(--accent); }
+  code {
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: .88em;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+  pre {
+    margin: 0 0 24px; padding: 18px 20px;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+    overflow-x: auto; font-size: 13.5px; line-height: 1.65;
+  }
+  pre code { background: none; border: 0; padding: 0; font-size: inherit; color: #c9c9d1; }
+  table { width: 100%; border-collapse: collapse; margin: 0 0 24px; font-size: 14.5px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--muted); font-weight: 500; font-size: 12px; letter-spacing: .05em; text-transform: uppercase; }
+  tbody tr:last-child td { border-bottom: 0; }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 40px 0 28px; }
+  .caveat { font-size: 14px; color: var(--muted); }
+
+  footer { padding: 36px 0 80px; border-top: 1px solid var(--border); font-size: 14px; color: var(--muted); }
+  footer a { color: var(--fg); text-decoration: none; border-bottom: 1px solid var(--border); }
+  footer a:hover { border-color: var(--accent); }
+  .cta {
+    display: block; margin: 32px 0 0; padding: 18px 20px;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+    color: var(--fg); text-decoration: none; border-bottom: 1px solid var(--border);
+  }
+  .cta:hover { border-color: var(--accent); }
+  .cta b { display: block; margin-bottom: 4px; }
+  .cta span { font-size: 13.5px; color: var(--muted); }
+
+  @media (max-width: 640px) {
+    header { padding: 56px 0 32px; }
+    h1 { font-size: 30px; }
+    .dek { font-size: 16.5px; }
+    article { font-size: 16px; padding-top: 32px; }
+    article h2 { font-size: 20px; margin-top: 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Agent Skills</p>
+  <h1>Most agent skills never say when not to use them</h1>
+  <p class="dek">Agent skills are a new format with an old failure mode: the instructions are fine, the boundary is wrong.</p>
+  <p class="meta">
+    I scanned <b>275</b> installed skills. <b>15</b> declare a boundary.
+    &nbsp;·&nbsp; <a href="https://github.com/YaBoom/skill-forge">Code and data</a>
+  </p>
+</header>
+
+<article>
+
+<p>I wanted to check how common this is, so I wrote a script that walks every <code>SKILL.md</code> installed under the usual host directories (<code>.claude</code>, <code>.agents</code>, <code>.cursor</code>, <code>.codex</code>), parses the frontmatter, and looks for any negative trigger in the <code>description</code> field — <code>Do not use</code>, <code>Not for</code>, <code>Avoid using</code>, <code>Not intended for</code>.</p>
+
+<pre><code>SKILL.md files found:        374
+unique skills:               275
+with frontmatter description: 275
+contain a negative trigger:   15
+do not:                       260
+negative-trigger rate:        5.5%</code></pre>
+
+<p>Why 374 files but 275 skills: the same skill is routinely installed into several host directories at once. Counting every copy would weight the result toward whatever the user installed most widely, so the script collapses on directory name first.</p>
+
+<p><strong>94.5% of skills never tell the host when to stay away.</strong></p>
+
+<p>The split by origin is the interesting part:</p>
+
+<table>
+  <thead>
+    <tr><th>Source</th><th>Count</th><th>With negative trigger</th><th>Rate</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Microsoft Azure pack (vendor-curated)</td><td>19</td><td>4</td><td>21.1%</td></tr>
+    <tr><td>Community and everything else</td><td>256</td><td>11</td><td>4.3%</td></tr>
+  </tbody>
+</table>
+
+<p>The curated pack is about 5x more disciplined than the long tail. It is still 79% missing. "Better than community" is a low bar when community is at 4.3%.</p>
+
+<p class="caveat">Sample caveat: 275 skills from one Windows machine, dominated by a handful of public collections (Anthropic's examples, the Azure pack, superpowers, gstack) plus scattered installs. <strong>Not a random sample, not a census.</strong> Rerun it on your machine and the number will move. A 21% vs 4% gap, though, is unlikely to be sampling noise.</p>
+
+<h2>Why the boundary matters more than the body</h2>
+
+<p><code>description</code> is the only thing an agent sees before deciding whether to load a skill. It is a retrieval key, not a summary for humans.</p>
+
+<p>If the description only says what the skill does, the agent has one option: load it in every superficially similar situation and let the body sort it out. That works when the skill's body is defensive. It fails when the skill is eager — and most skills are eager, because people write them to be helpful.</p>
+
+<p>The failure is quiet. A skill that shouldn't have fired doesn't usually error. It does something plausible, reports success, and you find out later.</p>
+
+<p>Here is a real negative trigger from a skill I wrote, for a workflow that mirrors a canonical skill directory into a published copy:</p>
+
+<table>
+  <thead><tr><th>User says</th><th>Expected</th></tr></thead>
+  <tbody><tr><td>"Publish the skill to skills.sh."</td><td><strong>does not activate</strong></td></tr></tbody>
+</table>
+
+<p>Why refuse? Because publishing and mirroring are different steps. If the skill fires here, the agent dutifully syncs the mirror, reports "done", and the user believes the release happened. Nothing errored. The wrong work was completed.</p>
+
+<p>That class of mistake is more expensive than a refusal, because a refusal at least stops you.</p>
+
+<h2>What the skill actually looks like</h2>
+
+<p>The workflow is unglamorous: one repository keeps the same skill in two places.</p>
+
+<pre><code>plugins/&lt;name&gt;/skills/&lt;skill&gt;/   ← canonical, edited here
+skills/&lt;skill&gt;/                  ← mirror, read by skills.sh and manual installs</code></pre>
+
+<p>Edit the first, forget the second, and everyone who installed gets a stale copy with no warning. I wanted this to stop being something anyone has to remember.</p>
+
+<p>The skill is 103 lines, ~890 tokens. Five steps, each with a command and an exit condition:</p>
+
+<pre><code>python scripts/sync_mirror.py --check     # exit 0 in sync, 1 with a drift list
+python scripts/sync_mirror.py             # mirror
+python scripts/sync_mirror.py --check     # must print "mirror is in sync"</code></pre>
+
+<p>Every step is traceable to something that already exists: the exit codes come from the script's implementation, the "in sync" string comes from an actual run, the drift-list behavior was observed. If a step could not be traced to evidence, it did not go in.</p>
+
+<p>That constraint is the whole method. The common failure when writing a skill is describing the workflow instead of harvesting it, which produces prose like "verify the sync succeeded" — a step the agent has to improvise at runtime.</p>
+
+<h2>Eight gates, scored 0/1/2</h2>
+
+<p>Before publishing I ran the skill through a scorecard. It is not a benchmark, it is a checklist that makes specific failures visible:</p>
+
+<table>
+  <thead><tr><th>Gate</th><th>Score</th><th>Evidence</th></tr></thead>
+  <tbody>
+    <tr><td>Trigger precision</td><td>2/2</td><td>3 positive triggers, 1 exclusion</td></tr>
+    <tr><td>Progressive disclosure</td><td>2/2</td><td>103 lines, no inlined reference material</td></tr>
+    <tr><td>Token budget</td><td>2/2</td><td>~890 tokens, under a 5k core budget</td></tr>
+    <tr><td>Executability</td><td>2/2</td><td>5 steps, each with a command and exit condition</td></tr>
+    <tr><td>Evidence anchoring</td><td>2/2</td><td>Derived from the script and two real runs</td></tr>
+    <tr><td>Safety</td><td>2/2</td><td>Mirror only, no source deletion, no secrets, no network installs</td></tr>
+    <tr><td>Portability</td><td>2/2</td><td>Paths discovered from repo root, no absolute paths</td></tr>
+    <tr><td>Provability</td><td>2/2</td><td>5 positive and 3 negative trigger tests, dry run twice</td></tr>
+  </tbody>
+</table>
+
+<p>16/16. The two gates that caught real problems were both about triggering, not content.</p>
+
+<p>The negative tests are the useful part:</p>
+
+<table>
+  <thead><tr><th>Utterance</th><th>Expected</th></tr></thead>
+  <tbody>
+    <tr><td>"Sync my fork with upstream."</td><td>does not activate</td></tr>
+    <tr><td>"Copy this directory to another drive."</td><td>does not activate</td></tr>
+    <tr><td>"Publish the skill to skills.sh."</td><td>does not activate</td></tr>
+  </tbody>
+</table>
+
+<p>Each one is a plausible thing a user would say in this repository, and all three should route elsewhere. Without them, "sync" and "mirror" pull in everything.</p>
+
+<h2>Four things you can copy</h2>
+
+<p>No tooling required:</p>
+
+<ol>
+  <li><strong>End your <code>description</code> with <code>Do not use for ...</code></strong> and make the exclusion discriminating. "Not for unrelated tasks" excludes nothing.</li>
+  <li><strong>Write at least one negative trigger test</strong> — a sentence a user might realistically say that should <em>not</em> activate the skill. If you cannot think of one, the skill's scope is probably too broad.</li>
+  <li><strong>Give every step a machine-checkable done condition.</strong> Not "confirm the sync succeeded" but "<code>--check</code> prints <code>mirror is in sync</code>".</li>
+  <li><strong>Prefer numbers to adjectives.</strong> <code>~890 tokens</code> beats "lightweight". <code>exit code 1</code> beats "detect drift".</li>
+</ol>
+
+<h2>What this does not prove</h2>
+
+<p>Eight gates and 5.5% say nothing about whether a skill is <em>useful</em>. A skill can score 16/16 and solve a problem nobody has. Boundary correctness is a quality floor, not a product strategy.</p>
+
+<p>It is, however, the cheapest quality fix available: one sentence in <code>description</code>, and the agent stops doing the wrong work confidently.</p>
+
+<hr>
+
+<p class="caveat">The scanning script is <code>scripts/survey_triggers.py</code> in the repository below. Run it on your own machine — the number will differ, and that is the point. The 275-skill sample is local installs on one Windows machine.</p>
+
+<a class="cta" href="https://github.com/YaBoom/skill-forge">
+  <b>skill-forge — code, scorecard, and the worked example</b>
+  <span>MIT. Eight gates, trigger tests, and the 103-line skill referenced above.</span>
+</a>
+
+</article>
+
+<footer>
+  <p>Written by <a href="https://github.com/YaBoom">YaBoom</a>. No tracking on this page.</p>
+</footer>
+
+</div>
+</body>
+</html>
