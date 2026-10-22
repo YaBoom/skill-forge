@@ -145,6 +145,7 @@ Exit code 0 means no blocking findings. The manual gates still require a human r
     ├── sync_mirror.py                   # keeps the mirror in sync
     ├── survey_triggers.py               # audits negative triggers across installed skills
     ├── make_demo_gif.py                 # renders the README animation from the dry run
+    ├── make_csdn_cover.py               # renders the 16:9 cover used in the written post
     └── preflight.py                     # repository-level checks
 ```
 
