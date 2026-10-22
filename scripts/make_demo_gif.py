@@ -169,7 +169,7 @@ def render(i: int) -> Image.Image:
 
 
 def main() -> int:
-    typing, gates, tail = 24, 24, 14
+    typing, gates, tail = 24, 24, 30
     total_frames = typing + 4 + gates + 6 + 4 + tail
 
     frames = [render(i) for i in range(total_frames)]
