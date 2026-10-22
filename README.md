@@ -2,6 +2,7 @@
 
 [![preflight](https://github.com/YaBoom/skill-forge/actions/workflows/preflight.yml/badge.svg)](https://github.com/YaBoom/skill-forge/actions/workflows/preflight.yml)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![website](https://img.shields.io/badge/website-live-6ee7a8)](https://yaboom.github.io/skill-forge/)
 
 Turn a workflow you just finished into a tested, publish-ready Agent Skill.
 
