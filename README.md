@@ -30,6 +30,18 @@ entry points (`find-skills`), verifiable deliverables (`frontend-design`), or a
 subscribable methodology (`mattpocock/skills`). Skill Forge targets the gap none of them
 fill — **turning a real, completed workflow into a distributable asset**.
 
+## Writing
+
+The long version of the argument, in both languages:
+
+- [Most agent skills never say when not to use them](https://yaboom.github.io/skill-forge/boundary.html) —
+  English, with the dataset and the eight-gate table inline.
+- [我扫了 275 个 Agent Skill，94.5% 没写“什么时候不该用”](https://blog.csdn.net/weixin_39301778/article/details/168752835) —
+  中文版，同一份数据。
+
+Both make the same claim: `description` is a retrieval key, not a summary for humans.
+Of the 275 skills scanned, 15 state when they should *not* fire.
+
 ## Install
 
 ### Claude Code

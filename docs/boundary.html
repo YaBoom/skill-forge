@@ -13,6 +13,64 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Most agent skills never say when not to use them">
 <meta name="twitter:description" content="I scanned 275 installed agent skills. 5.5% declare when they should not fire.">
+<link rel="canonical" href="https://yaboom.github.io/skill-forge/boundary.html">
+<meta name="author" content="YaBoom">
+<meta property="article:published_time" content="2026-10-22">
+<meta property="article:author" content="https://github.com/YaBoom">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Most agent skills never say when not to use them",
+      "description": "A scan of 275 installed agent skills found 15 that declare when they should not fire. The boundary belongs in the description field.",
+      "datePublished": "2026-10-22",
+      "dateModified": "2026-10-22",
+      "author": { "@type": "Person", "name": "YaBoom", "url": "https://github.com/YaBoom" },
+      "image": "https://yaboom.github.io/skill-forge/og.png",
+      "mainEntityOfPage": "https://yaboom.github.io/skill-forge/boundary.html"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is an agent skill?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An agent skill is a directory whose SKILL.md file carries name and description in its frontmatter, plus optional references and scripts. Hosts such as Claude Code, Codex, and Cursor read the description first, decide whether it matches the conversation, and only then load the body."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a negative trigger in a skill description?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A negative trigger is a sentence in description that names when the skill should not fire: Do not use for ..., Not for ..., Avoid using ..., or Not intended for .... It is the only routing signal a host sees before the body is read."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I stop a skill from activating when it should not?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Put the exclusion in description, not in the body. The host never reads the body when deciding whether to load, so a do-not-use paragraph inside SKILL.md cannot prevent the load. Name the adjacent task and, where possible, the skill that should handle it instead."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long should a skill description be?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Long enough to carry three things: what it does, when to use it, and when not to. The third part is the one usually missing, and it is the only part a host can use to route a request away."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 <style>
   :root {
     --bg: #0b0b0c;
@@ -49,6 +107,10 @@
   article h2 {
     margin: 52px 0 18px;
     font-size: 23px; line-height: 1.3; letter-spacing: -.01em; font-weight: 650;
+  }
+  article h3 {
+    margin: 34px 0 10px;
+    font-size: 18px; line-height: 1.4; font-weight: 650;
   }
   article strong { color: #fff; font-weight: 650; }
   article em { color: #fff; }
@@ -108,10 +170,13 @@
   <p class="meta">
     I scanned <b>275</b> installed skills. <b>15</b> declare a boundary.
     &nbsp;·&nbsp; <a href="https://github.com/YaBoom/skill-forge">Code and data</a>
+    &nbsp;·&nbsp; <a href="https://blog.csdn.net/weixin_39301778/article/details/168752835" hreflang="zh-CN" lang="zh-CN">中文版</a>
   </p>
 </header>
 
 <article>
+
+<p><strong>Short version:</strong> a skill's <code>description</code> is the only text a host reads before deciding whether to load it. If the description never says when the skill should not fire, the host loads it anyway. I scanned 275 installed skills; 15 carry that sentence. This post is about the missing 94.5%.</p>
 
 <p>I wanted to check how common this is, so I wrote a script that walks every <code>SKILL.md</code> installed under the usual host directories (<code>.claude</code>, <code>.agents</code>, <code>.cursor</code>, <code>.codex</code>), parses the frontmatter, and looks for any negative trigger in the <code>description</code> field — <code>Do not use</code>, <code>Not for</code>, <code>Avoid using</code>, <code>Not intended for</code>.</p>
 
@@ -150,7 +215,7 @@ negative-trigger rate:        5.5%</code></pre>
 
 <p>The failure is quiet. A skill that shouldn't have fired doesn't usually error. It does something plausible, reports success, and you find out later.</p>
 
-<p>Here is a real negative trigger from a skill I wrote, for a workflow that mirrors a canonical skill directory into a published copy:</p>
+<p>Here is a real negative trigger from <code>sync-skill-mirror</code>, a skill that mirrors a canonical skill directory into a published copy:</p>
 
 <table>
   <thead><tr><th>User says</th><th>Expected</th></tr></thead>
@@ -223,6 +288,20 @@ python scripts/sync_mirror.py --check     # must print "mirror is in sync"</code
   <li><strong>Give every step a machine-checkable done condition.</strong> Not "confirm the sync succeeded" but "<code>--check</code> prints <code>mirror is in sync</code>".</li>
   <li><strong>Prefer numbers to adjectives.</strong> <code>~890 tokens</code> beats "lightweight". <code>exit code 1</code> beats "detect drift".</li>
 </ol>
+
+<h2>Questions this raises</h2>
+
+<h3>What is an agent skill?</h3>
+<p>An agent skill is a directory whose <code>SKILL.md</code> file carries <code>name</code> and <code>description</code> in its frontmatter, plus optional references and scripts. Hosts such as Claude Code, Codex, and Cursor read the description first, decide whether it matches the conversation, and only then load the body.</p>
+
+<h3>What is a negative trigger in a skill description?</h3>
+<p>A negative trigger is a sentence in <code>description</code> that names when the skill should <em>not</em> fire: <code>Do not use for ...</code>, <code>Not for ...</code>, <code>Avoid using ...</code>, <code>Not intended for ...</code>. It is the only routing signal a host sees before the body is read.</p>
+
+<h3>How do I stop a skill from activating when it should not?</h3>
+<p>Put the exclusion in <code>description</code>, not in the body. The host never reads the body when deciding whether to load, so a "do not use this for X" paragraph inside <code>SKILL.md</code> cannot prevent the load. Name the adjacent task and, where possible, the skill that should handle it instead.</p>
+
+<h3>How long should a skill description be?</h3>
+<p>Long enough to carry three things: what it does, when to use it, and when not to. The third part is the one usually missing, and it is the only part a host can use to route a request away.</p>
 
 <h2>What this does not prove</h2>
 
