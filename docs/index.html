@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Skill Forge — turn a finished workflow into a tested Agent Skill</title>
 <meta name="description" content="Skill Forge harvests a workflow you already completed into a tested, evidence-backed Agent Skill, scored against eight quality gates.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yaboom.github.io/skill-forge/">
+<meta property="og:title" content="Skill Forge — turn a finished workflow into a tested Agent Skill">
+<meta property="og:description" content="Starts from what you already ran, not from a blank page. Eight gates, trigger tests, Claude Code and Codex packaging.">
+<meta property="og:image" content="https://yaboom.github.io/skill-forge/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Skill Forge — turn a finished workflow into a tested Agent Skill">
+<meta name="twitter:description" content="Starts from what you already ran, not from a blank page.">
+<meta name="twitter:image" content="https://yaboom.github.io/skill-forge/og.png">
 <style>
   :root {
     --bg: #0b0b0c;
@@ -222,6 +231,17 @@ synced plugins/skill-forge/... -&gt; skills/...
     </p>
   </section>
 
+  <section>
+    <h2>Install</h2>
+    <div class="install">
+      <code id="cmd2">npx skills add YaBoom/skill-forge -s skill-forge -g</code>
+      <button id="copy2" type="button">copy</button>
+    </div>
+    <p class="hint">
+      Installs into the current host's skill directory. Drop <code>-g</code> for a project-scoped install.
+    </p>
+  </section>
+
   <footer>
     <div class="links">
       <a href="https://github.com/YaBoom/skill-forge">GitHub</a>
@@ -237,20 +257,28 @@ synced plugins/skill-forge/... -&gt; skills/...
 <script>
   const btn = document.getElementById('copy');
   const cmd = document.getElementById('cmd');
-  btn.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(cmd.textContent.trim());
-      btn.textContent = 'copied';
-    } catch {
-      const range = document.createRange();
-      range.selectNodeContents(cmd);
-      const sel = window.getSelection();
-      sel.removeAllRanges();
-      sel.addRange(range);
-      btn.textContent = 'select & copy';
-    }
-    setTimeout(() => { btn.textContent = 'copy'; }, 1600);
-  });
+  const btn2 = document.getElementById('copy2');
+  const cmd2 = document.getElementById('cmd2');
+
+  function wire(button, target) {
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(target.textContent.trim());
+        button.textContent = 'copied';
+      } catch {
+        const range = document.createRange();
+        range.selectNodeContents(target);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        button.textContent = 'select & copy';
+      }
+      setTimeout(() => { button.textContent = 'copy'; }, 1600);
+    });
+  }
+
+  wire(btn, cmd);
+  wire(btn2, cmd2);
 </script>
 </body>
 </html>
