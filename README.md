@@ -6,6 +6,10 @@
 
 Turn a workflow you just finished into a tested, publish-ready Agent Skill.
 
+![Skill Forge dry run: eight quality gates each scored 2/2, total 16/16, verdict ship](docs/demo.gif)
+
+<sub>A real dry run, rendered from [`docs/dry-run-scorecard.md`](docs/dry-run-scorecard.md). Not a mockup.</sub>
+
 **Not another skill-writing checklist.** Most skill tools start from a blank page and ask
 you to describe the workflow. Skill Forge starts from a workflow you have already
 completed, refuses to invent steps that cannot be traced to evidence, and ships only
@@ -140,6 +144,7 @@ Exit code 0 means no blocking findings. The manual gates still require a human r
 └── scripts/
     ├── sync_mirror.py                   # keeps the mirror in sync
     ├── survey_triggers.py               # audits negative triggers across installed skills
+    ├── make_demo_gif.py                 # renders the README animation from the dry run
     └── preflight.py                     # repository-level checks
 ```
 

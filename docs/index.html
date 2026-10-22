@@ -123,6 +123,13 @@
   footer a:hover { border-color: var(--accent); }
   .links { display: flex; gap: 22px; flex-wrap: wrap; margin-bottom: 18px; }
 
+  .demo { margin: 34px 0 0; }
+  .demo img {
+    display: block; width: 100%; height: auto;
+    border: 1px solid var(--border); border-radius: 10px;
+  }
+  .demo figcaption { margin-top: 10px; font-size: 12.5px; color: var(--muted); text-align: center; }
+
   @media (max-width: 640px) {
     header { padding: 56px 0 36px; }
     .compare { grid-template-columns: 1fr; }
@@ -159,6 +166,16 @@
     <div class="stat"><b>16/16</b><span>on the worked example</span></div>
     <div class="stat"><b>94.5%</b><span>of skills never state their boundary</span></div>
   </div>
+
+  <figure class="demo">
+    <img src="demo.gif" width="900" height="572"
+         alt="A dry run: eight quality gates each scored 2/2, total 16/16, verdict ship, output is a 103-line SKILL.md">
+    <figcaption>
+      Rendered from the recorded dry run in
+      <a href="https://github.com/YaBoom/skill-forge/blob/main/docs/dry-run-scorecard.md">docs/dry-run-scorecard.md</a>.
+      Not a mockup.
+    </figcaption>
+  </figure>
 
   <section>
     <h2>The difference</h2>
