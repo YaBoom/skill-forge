@@ -51,6 +51,16 @@ EVIDENCE = "5 evidence signals · 1 redaction · 0 inferred steps"
 TESTS = "5 positive · 3 negative trigger tests · dry run executed twice"
 OUTPUT = "examples/sync-skill-mirror/SKILL.md · 103 lines · ~890 tokens"
 
+# Timeline in frames (50 ms each). The build-up is kept short on purpose: a README
+# animation spends most of its loop on the finished card, not on an empty canvas.
+TYPING_FRAMES = 18
+GATES_START = 21
+GATES_FRAMES = 16
+VERDICT_START = GATES_START + GATES_FRAMES
+TESTS_START = VERDICT_START + 5
+OUTPUT_START = TESTS_START + 4
+TOTAL_FRAMES = OUTPUT_START + 4 + 34
+
 
 def load(name: str, size: int) -> ImageFont.FreeTypeFont:
     path = FONT_DIR / name
@@ -108,34 +118,34 @@ def render(i: int) -> Image.Image:
     img, d = base_frame()
 
     # --- stage 1: the request types itself in ---------------------------------
-    typed = min(len(REQUEST), -(-(i + 1) * len(REQUEST) // 24))
+    typed = min(len(REQUEST), -(-(i + 1) * len(REQUEST) // TYPING_FRAMES))
     d.text((26, 74), ">", font=MONO, fill=ACCENT)
     d.text((44, 74), REQUEST[:typed], font=MONO, fill=FG)
-    if i < 24:
+    if i < TYPING_FRAMES:
         cx = 44 + d.textlength(REQUEST[:typed], font=MONO) + 2
         d.rectangle([cx, 75, cx + 7, 92], fill=ACCENT)
 
     # --- stage 2: harvest summary ---------------------------------------------
-    if i >= 24:
-        t = min(1.0, (i - 24) / 4)
+    if i >= TYPING_FRAMES:
+        t = min(1.0, (i - TYPING_FRAMES) / 3)
         d.text((44, 100), EVIDENCE, font=MONO_SM, fill=mix(BG, DIM, t))
 
     # --- stage 3: gates fill in ----------------------------------------------
-    if i >= 28:
+    if i >= GATES_START:
         d.line([(26, 132), (W - 26, 132)], fill=BORDER)
         d.line([(26, 438), (W - 26, 438)], fill=BORDER)
         tracked(d, (26, 142), "EIGHT GATES", UI_SM, MUTED)
 
-        shown = min(8, (i - 28) // 3 + 1)
+        shown = min(8, (i - GATES_START) // 2 + 1)
         counter = f"{shown}/8"
         cw = d.textlength(counter, font=MONO_SM)
         d.text((W - 30 - cw, 143), counter, font=MONO_SM, fill=ACCENT)
 
         for k in range(shown):
             row_top = 170 + k * 32
-            step = i - (28 + k * 3)
-            t = 1.0 if step >= 2 else (0.55 if step == 1 else 0.25)
-            dy = 0 if step >= 2 else (3 if step == 1 else 6)
+            step = i - (GATES_START + k * 2)
+            t = 1.0 if step >= 1 else 0.5
+            dy = 0 if step >= 1 else 4
             color = mix(BG, FG, t)
             check_mark(d, 26, row_top + 6 + dy, 13, mix(BG, ACCENT, t))
             d.text((52, row_top + dy), GATES[k], font=UI, fill=color)
@@ -144,8 +154,8 @@ def render(i: int) -> Image.Image:
             d.text((W - 30 - sw, row_top + 1 + dy), score, font=MONO, fill=mix(BG, ACCENT, t))
 
     # --- stage 4: verdict ----------------------------------------------------
-    if i >= 52:
-        t = min(1.0, (i - 52) / 5)
+    if i >= VERDICT_START:
+        t = min(1.0, (i - VERDICT_START) / 5)
         d.text((26, 456), "total", font=UI, fill=mix(BG, MUTED, t))
         d.text((78, 448), "16/16", font=TOTAL, fill=mix(BG, ACCENT, t))
 
@@ -157,11 +167,11 @@ def render(i: int) -> Image.Image:
             d.text((bx + 20, by + 7), "SHIP", font=UI_BOLD, fill=mix(BADGE_BG, ACCENT, (t - 0.75) / 0.25))
 
     # --- stage 5: proof line -------------------------------------------------
-    if i >= 58:
-        t = min(1.0, (i - 58) / 3)
+    if i >= TESTS_START:
+        t = min(1.0, (i - TESTS_START) / 3)
         d.text((26, 502), TESTS, font=UI_SM, fill=mix(BG, DIM, t))
-    if i >= 62:
-        t = min(1.0, (i - 62) / 3)
+    if i >= OUTPUT_START:
+        t = min(1.0, (i - OUTPUT_START) / 3)
         d.text((26, 532), "output", font=MONO_SM, fill=mix(BG, ACCENT, t))
         d.text((78, 530), OUTPUT, font=MONO_SM, fill=mix(BG, MUTED, t))
 
@@ -169,10 +179,7 @@ def render(i: int) -> Image.Image:
 
 
 def main() -> int:
-    typing, gates, tail = 24, 24, 30
-    total_frames = typing + 4 + gates + 6 + 4 + tail
-
-    frames = [render(i) for i in range(total_frames)]
+    frames = [render(i) for i in range(TOTAL_FRAMES)]
 
     # One shared palette keeps the file small and the flat background clean.
     master = frames[-1].quantize(colors=96, method=Image.MEDIANCUT, dither=Image.NONE)
@@ -189,7 +196,7 @@ def main() -> int:
         disposal=1,
     )
     size_kb = OUT.stat().st_size / 1024
-    print(f"wrote {OUT.relative_to(ROOT)}  {total_frames} frames  {size_kb:.0f} KB")
+    print(f"wrote {OUT.relative_to(ROOT)}  {TOTAL_FRAMES} frames  {size_kb:.0f} KB")
     return 0
 
 
